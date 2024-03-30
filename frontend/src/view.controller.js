@@ -24,4 +24,12 @@ export class viewController{
             next(err);
         }
     }
+    adminHome=async (req,res,next)=>{
+        try{
+            await res.render("adminHome",{title:"Admin Home",javascript:`<script type="text/javascript" src="/javascript/adminHome.js" ></script>`});
+        }
+        catch(err){
+            next(err);
+        }
+    }
 }

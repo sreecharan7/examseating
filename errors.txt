@@ -191,3 +191,17 @@ Time: 2024-03-30T06:07:58.161Z, StatusCode: 500, Error: something wrong with the
 sTime: 2024-03-30T06:08:41.204Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/teacher/addQuestionPaper,msg:Cannot read properties of null (reading 'length')
 sTime: 2024-03-30T06:09:51.658Z, StatusCode: 400, Error: {"status":false,"msg":"Teacher not found"}, IP: ::1, URL: /api/teacher/addQuestionPaper
 Time: 2024-03-30T06:10:23.461Z, StatusCode: 400, Error: {"status":false,"msg":"Teacher not found"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-30T06:25:14.372Z, StatusCode: 404, Error: {"status":false,"msg":"User not found"}, IP: ::1, URL: /api/user/login
+Time: 2024-03-30T07:00:20.309Z, StatusCode: 400, Error: {"status":false,"msg":"you are not authorized to access this role"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T07:00:41.610Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
+sTime: 2024-03-30T07:16:49.189Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T07:23:08.617Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T07:26:21.504Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T07:27:07.897Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T07:28:44.028Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T07:29:21.447Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T08:27:49.802Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:Assignment to constant variable.
+sTime: 2024-03-30T08:33:12.562Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
+sTime: 2024-03-30T08:35:06.395Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
+sTime: 2024-03-30T08:37:29.535Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
+s

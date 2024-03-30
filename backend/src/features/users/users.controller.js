@@ -19,7 +19,7 @@ export class UserController{
                 req.userData={};
                 req.userData.cookieData={userId:result._id,role:result.role,collegeId:result.collegeId};
                 await createCookie(req,res,next);
-                res.status(200).json({message:"Login success"});
+                res.status(200).json({message:"Login success",redirect:`/v/${result.role}`});
             }else{
                 throw new customError(400,"Login failed");
             }

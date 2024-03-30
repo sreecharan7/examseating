@@ -478,16 +478,33 @@ export class AdminController{
             //exact data from attedance using couresId
             let semesterStudents=await this.attedanceRepository.getByCouseIdArray(examData["courses"]);
             let students=[];
+            let notAllowedStudents=[];
+            let map={};
             for(let i=0;i<semesterStudents.length;i++){
                 if(semesterStudents[i]["percentage"]>75&&semesterStudents[i]["semesterId"]["payment"]){
                     students.push({
                         rollNo:semesterStudents[i]["semesterId"]["studentId"]["rollNo"],
                         branch:semesterStudents[i]["semesterId"]["studentId"]["branch"],
                         year:semesterStudents[i]["semesterId"]["studentId"]["year"],
-                        courseCode:semesterStudents[i]["courseCode"],
+                        course:semesterStudents[i]["courseCode"],
                         students:[semesterStudents[i]["semesterId"]["studentId"]["rollNo"]]
                     });
                 }
+                else{
+                    notAllowedStudents.push({
+                        rollNo:semesterStudents[i]["semesterId"]["studentId"]["rollNo"],
+                        branch:semesterStudents[i]["semesterId"]["studentId"]["branch"],
+                        year:semesterStudents[i]["semesterId"]["studentId"]["year"],
+                        course:semesterStudents[i]["courseCode"],
+                        students:[semesterStudents[i]["semesterId"]["studentId"]["rollNo"]]
+                    });
+                }
+                map[semesterStudents[i]["semesterId"]["studentId"]["rollNo"]]={
+                    branch:semesterStudents[i]["semesterId"]["studentId"]["branch"],
+                    year:semesterStudents[i]["semesterId"]["studentId"]["year"],
+                    course:semesterStudents[i]["courseCode"],
+                    name:semesterStudents[i]["semesterId"]["studentId"]["name"]
+                };
             }
             let classesChecker=await this.classesRepositroy.checkMultipleClasses(examData["classes"]);
 
@@ -496,53 +513,63 @@ export class AdminController{
                 classes:classesChecker
             }
             let seating=gets_seating(sendData,"course");
+            console.log(seating);
             if(seating["error"]){
                 throw new customError(400,seating["msg"]);
             }
-            const data = [];
-            for(let i=0;i<seating["classes"].length;i++){
-                let temp=[];
-                temp.push(seating["classes"][i]["name"]);
-                data.push(temp);
-                temp=[];
-                for(let j=0;j<seating["classes"][i]["seating"].length;j++){
-                    for(let z=0;z<seating["classes"][i]["seating"][j].length;z++){
-                        for(let u=0;u<seating["classes"][i]["seating"][j][z].length;u++){
-                            if(!temp[z]){
-                                temp[z]=[];
-                            }
-                            if(!temp[z][j]){
-                                temp[z][j]=[];
-                            }
-                            temp[z][j].push(seating["classes"][i]["seating"][j][z][u]);
-                        }
-                    }
+            let data = [];
+            let workbook = xlsx.utils.book_new();
+            for(let i=0;i<seating["classes_data"].length;i++){
+                data.push([seating["classes_data"][i]["name"]]);
+                for(let j=0;j<seating["classes_data"][i]["seating"].length;j++){
+                    data.push(seating["classes_data"][i]["seating"][j]);
                 }
-                console.log(temp)
-                let temp2=[];
-                let temp1=[];
-                for(let j=0;j<temp.length;j++){
-                    for(let z=0;z<temp[j].length;z++){
-                        // temp2.push('row-'+(z+1));
-                        for(let u=0;u<temp[j][z].length;u++){
-                            if(!temp1[j]){
-                                temp1[j]=[];
-                            }
-                            if(temp[j][z][u]!=0)temp1[j].push(temp[j][z][u]);
-                        }
-                        temp1[j].push(0)
-                    }
-                }
+                
+                const worksheet = xlsx.utils.aoa_to_sheet(data);
+                xlsx.utils.book_append_sheet(workbook, worksheet, `${seating["classes_data"][i]["name"]}`);
+                data=[];
             }
-            const workbook = xlsx.utils.book_new();
-
-            const worksheet = xlsx.utils.aoa_to_sheet(data);
-
-            xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-
-            const filePath = path.join( `./data/excels/${examId}.xlsx`);
+            
+            let filePath = path.join( `./data/excels/${examId}.xlsx`);
 
             xlsx.writeFile(workbook, filePath);
+
+            workbook=xlsx.utils.book_new();
+
+            data=[];
+            data.push(["roll no","branch","year","course","students"]);
+            for(let i=0;i<notAllowedStudents.length;i++){
+                data.push([notAllowedStudents[i]["rollNo"],notAllowedStudents[i]["branch"],notAllowedStudents[i]["year"],notAllowedStudents[i]["course"],notAllowedStudents[i]["students"]]);
+            }
+            const worksheet = xlsx.utils.aoa_to_sheet(data);
+            xlsx.utils.book_append_sheet(workbook, worksheet, `notAllowedStudents`);
+
+            let filePath1 = path.join( `./data/excels/${examId}-notAllowedStudents.xlsx`);
+            xlsx.writeFile(workbook, filePath1);
+            
+            workbook=xlsx.utils.book_new();
+            data=[];
+            //class room data
+            for(let i=0;i<seating["classes_data"].length;i++){
+                let classData=[];
+                let classStudent=[];
+                for(let j=1;j<seating["classes_data"][i]["seating"].length;j++){
+                    for(let k=0;k<seating["classes_data"][i]["seating"][j].length;k++){
+                        if(seating["classes_data"][i]["seating"][j][k]!="-"&&seating["classes_data"][i]["seating"][j][k]!="0"){
+                            classStudent.push(seating["classes_data"][i]["seating"][j][k]);
+                        }
+                    }
+                }
+                classStudent.sort();
+                classData.push(["roll no","name","branch","year","course","Booklet Code","Signature"]);
+                for(let j=0;j<classStudent.length;j++){
+                    classData.push([classStudent[j],map[classStudent[j]]["name"],map[classStudent[j]]["branch"],map[classStudent[j]]["year"],map[classStudent[j]]["course"]]);
+                }
+                const worksheet = xlsx.utils.aoa_to_sheet(classData);
+                xlsx.utils.book_append_sheet(workbook, worksheet, `${seating["classes_data"][i]["name"]}`);
+            }
+            let filePath2 = path.join( `./data/excels/${examId}-classRoomData.xlsx`);
+            xlsx.writeFile(workbook, filePath2);
 
             res.send({msg:"allocated sucessfuly"});
         }catch(err){
