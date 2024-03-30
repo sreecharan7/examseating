@@ -6,9 +6,11 @@ import {CouresRepository} from "../coures/coures.repository.js"
 import {SemesterRepositroy} from "../semesters/semesters.repository.js"
 import {AttedanceRepository} from "../attendance/attedance.repository.js"
 import {classesRepositroy} from "../classes/classes.repository.js"
+import {ExamRepository} from "../exams/exams.repository.js"
+import {gets_seating} from "../../../algorithm/as.js"
 
 import xlsx from 'xlsx';
-
+import path from 'path';
 
 const isValidObjectId = (id) => {
     if(id instanceof Object){
@@ -27,6 +29,7 @@ export class AdminController{
         this.semesterRepositroy=new SemesterRepositroy();
         this.attedanceRepository=new AttedanceRepository();
         this.classesRepositroy=new classesRepositroy();
+        this.examRepository=new ExamRepository();
     }
     //add student
     addStudent=async(req,res,next)=>{
@@ -265,10 +268,6 @@ export class AdminController{
             for(let i=0;i<data.length;i++){
                 if(data[i]["studentId"]&&data[i]["courseName"]){
                     semestersData.push({studentId:data[i]["studentId"],name:semesterName});
-                    attedancelist.push({
-                        courseCode:data[i]["courseName"],
-                        percentage:data[i]["percentage"]
-                    });
                     courseCodesMap[data[i]["courseName"]]=1;
                 }else{
                     throw new customError(400,"error at data at "+i);
@@ -282,9 +281,16 @@ export class AdminController{
             if(couresCheck.length!=Object.keys(courseCodesMap).length){
                 throw new customError(400,"coures not found");
             }
-            console.log(attedancelist,semesterCheck,data);
+            let map={};
             for(let i=0;i<data.length;i++){
-                attedancelist[i]["semesterId"]=semesterCheck[i]._id;
+                map[semesterCheck[i]["studentId"]]=semesterCheck[i]._id;
+            }
+            for(let i=0;i<data.length;i++){
+                attedancelist.push({
+                    semesterId:map[data[i]["studentId"]],
+                    courseCode:data[i]["courseName"],
+                    percentage:data[i]["percentage"]
+                });
             }
             let attedance=await this.attedanceRepository.addMultipleAttendances(attedancelist);
             if(!req.nores){
@@ -363,9 +369,9 @@ export class AdminController{
             }
             let classes=[];
             for(let i=0;i<data.length;i++){
-                if(data[i]["sturcture"]&&data[i]["name"]&&data[i]["noOfTeacherRequired"]){
+                if(data[i]["structure"].length&&data[i]["name"]&&data[i]["noOfTeacherRequired"]){
                     classes.push({
-                        structure:data[i]["sturcture"],
+                        structure:data[i]["structure"],
                         name:data[i]["name"],
                         noOfTeacherRequired:data[i]["noOfTeacherRequired"] 
                     });
@@ -382,6 +388,7 @@ export class AdminController{
     addCourseWithRollNoByExel=async (req,res,next)=>{
         try{
             //read file address
+
             if(!req.file){
                 throw new customError(400,"file is required");
             }
@@ -433,5 +440,113 @@ export class AdminController{
             next(err);
         }
     }
+    addExam=async (req,res,next)=>{
+        try {
+            let {name,classes,courses,examDate,startTime}=req.body;
+            if(!name||!classes||classes.length==0||!examDate||!startTime||!courses||courses.length==0){
+                throw new customError(400,"name,classes,courses,examDate,startTime is required");
+            }
+            //check coures exist or not in database
+            let map={};
+            for(let i=0;i<courses.length;i++){
+                map[courses[i]]=1;
+            }
+            let couresCheck=await this.couresRepository.checkMultipleCourses(Object.keys(map));
+            if(courses.length!=couresCheck.length){
+                throw new customError(400,"course not found");
+            }
+            let classesChecker=await this.classesRepositroy.checkMultipleClasses(classes);
+            if(classesChecker.length!=classes.length){
+                throw new customError(400,"classes not found");
+            }
+            await this.examRepository.addExam(name,classes,courses,examDate,startTime);
+            res.status(200).json({message:"exam added successfully"});
+        } catch (err) {
+            next(err);
+        }
+    }
+    allocateSeat=async (req,res,next)=>{
+        try{
+            const {examId}=req.body;
+            if(!examId){
+                throw new customError(400,"give input examId");
+            }
+            let examData=await this.examRepository.getExamById(examId);
+            if(!examData){
+                throw new customError(400,"wrong exam id");
+            }
+            //exact data from attedance using couresId
+            let semesterStudents=await this.attedanceRepository.getByCouseIdArray(examData["courses"]);
+            let students=[];
+            for(let i=0;i<semesterStudents.length;i++){
+                if(semesterStudents[i]["percentage"]>75&&semesterStudents[i]["semesterId"]["payment"]){
+                    students.push({
+                        rollNo:semesterStudents[i]["semesterId"]["studentId"]["rollNo"],
+                        branch:semesterStudents[i]["semesterId"]["studentId"]["branch"],
+                        year:semesterStudents[i]["semesterId"]["studentId"]["year"],
+                        courseCode:semesterStudents[i]["courseCode"],
+                        students:[semesterStudents[i]["semesterId"]["studentId"]["rollNo"]]
+                    });
+                }
+            }
+            let classesChecker=await this.classesRepositroy.checkMultipleClasses(examData["classes"]);
 
+            let sendData={
+                students:students,
+                classes:classesChecker
+            }
+            let seating=gets_seating(sendData,"course");
+            if(seating["error"]){
+                throw new customError(400,seating["msg"]);
+            }
+            const data = [];
+            for(let i=0;i<seating["classes"].length;i++){
+                let temp=[];
+                temp.push(seating["classes"][i]["name"]);
+                data.push(temp);
+                temp=[];
+                for(let j=0;j<seating["classes"][i]["seating"].length;j++){
+                    for(let z=0;z<seating["classes"][i]["seating"][j].length;z++){
+                        for(let u=0;u<seating["classes"][i]["seating"][j][z].length;u++){
+                            if(!temp[z]){
+                                temp[z]=[];
+                            }
+                            if(!temp[z][j]){
+                                temp[z][j]=[];
+                            }
+                            temp[z][j].push(seating["classes"][i]["seating"][j][z][u]);
+                        }
+                    }
+                }
+                console.log(temp)
+                let temp2=[];
+                let temp1=[];
+                for(let j=0;j<temp.length;j++){
+                    for(let z=0;z<temp[j].length;z++){
+                        // temp2.push('row-'+(z+1));
+                        for(let u=0;u<temp[j][z].length;u++){
+                            if(!temp1[j]){
+                                temp1[j]=[];
+                            }
+                            if(temp[j][z][u]!=0)temp1[j].push(temp[j][z][u]);
+                        }
+                        temp1[j].push(0)
+                    }
+                }
+            }
+            const workbook = xlsx.utils.book_new();
+
+            const worksheet = xlsx.utils.aoa_to_sheet(data);
+
+            xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+            const filePath = path.join( `./data/excels/${examId}.xlsx`);
+
+            xlsx.writeFile(workbook, filePath);
+
+            res.send({msg:"allocated sucessfuly"});
+        }catch(err){
+            next(err);
+        }
+    }
 }

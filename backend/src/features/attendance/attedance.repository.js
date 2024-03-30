@@ -27,4 +27,21 @@ export class AttedanceRepository{
             throw new customError(400,"something went adding multiple attedances");
         }
     }
+    getByCouseIdArray=async (courses)=>{
+      try{
+        const attendances = await attedanceModel.find({
+          courseCode: { $in: courses }
+        }).populate("semesterId").populate({
+          path: 'semesterId',
+          populate: {
+            path: 'studentId',
+            model: 'students'
+          }
+        });
+        return attendances;
+      }catch(err){
+        console.log(err);
+        throw new customError(400,"something went while fecthing");
+      }
+    }
 }

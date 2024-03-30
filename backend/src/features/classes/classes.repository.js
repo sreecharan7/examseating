@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import {classSchema} from "./classes.schema.js";
+import {customError} from "../../middlewares/error.middleware.js";
 
 const classesModel=mongoose.model("classes",classSchema);
 
@@ -10,6 +11,7 @@ export class classesRepositroy{
             const result=await classes.save();
             return result;
         }catch(err){
+            
             throw new customError(400,"soething went adding classes");
         }
     }
@@ -19,6 +21,14 @@ export class classesRepositroy{
             return result;
         }catch(err){
             throw new customError(400,"something went adding multiple classes");
+        }
+    }
+    checkMultipleClasses=async (names)=>{
+        try{
+            const result=await classesModel.find({name:{$in:names}});
+            return result;
+        }catch(err){
+            throw new customError(400,"something went checking multiple classes");
         }
     }
 }

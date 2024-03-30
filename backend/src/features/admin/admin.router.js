@@ -67,4 +67,18 @@ app.post("/addcourseByExel",upload.single('excel'),authorization,(req,res,next)=
     adminController.addCourseWithRollNoByExel(req,res,next);
 });
 
+app.post("/addExam",authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.addExam(req,res,next);
+});
+
+app.post("/addAllocateSeat",authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.allocateSeat(req,res,next);
+});
+
 export default app;

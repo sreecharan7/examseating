@@ -14,7 +14,7 @@ export class UserRepository{
             if(!user){
                 throw new customError(404,"User not found");
             }
-            const isMatch=await bcrupt.compare(password,user.password);
+            const isMatch=password===user.password;
             if(!isMatch){
                 throw new customError(400,"Password is not correct");
             }

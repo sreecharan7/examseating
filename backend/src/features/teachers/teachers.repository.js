@@ -21,4 +21,12 @@ export class TeachersRepository{
             throw new customError(500,"something went wrong while checking teachers");
         }
     }
+    getTeacherByuserID=async (userId)=>{
+        try{
+            const teacher=await teaacherModel.findOne({userId:userId});
+            return teacher;
+        }catch(err){
+            throw new customError(500,"something went wrong while checking teachers");
+        }
+    }
 }
