@@ -48,4 +48,11 @@ export class viewController{
             next(err);
         }
     }
+    adminTeacherView=async (req,res,next)=>{
+        try{
+            await res.render("adminTeachers",{title:"Teachers home",javascript:'<script type="text/javascript" src="/javascript/adminTeachers.js" ></script>'});
+        }catch(err){
+            next(err);
+        }
+    }
 }

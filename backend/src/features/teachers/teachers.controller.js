@@ -3,7 +3,8 @@ import {customError} from "../../middlewares/error.middleware.js";
 import {CouresRepository} from "../coures/coures.repository.js"
 import {ExamPaperRepository} from "../examPaper/examPaper.repository.js";
 import {ExamRepository} from "../exams/exams.repository.js"
-
+import crypto  from'crypto';
+import fs  from'fs';
 
 
 export class TeachersController{
@@ -35,10 +36,64 @@ export class TeachersController{
             if(!examData){
                 throw new  customError(400,"Exam not found");
             }
-            await this.examPaperRepository.createExamPaper(examId,couseCode,file.filename);
+            let eccData=encryptFile(`./${req.file.destination}/${req.file.filename}`,`./public/papers/${req.file.filename}.enc`);
+            //delete the original file.
+            //convet the key and iv to string
+            eccData.key=eccData.key.toString('hex');
+            eccData.iv=eccData.iv.toString('hex');
+            await this.examPaperRepository.createExamPaper(examId,couseCode,`${req.file.filename}.enc`,eccData.key,eccData.iv,file.originalname);
             res.status(201).json({message:"Question paper added successfully"});
         }catch(err){
             next(err);
         }
     }
+    getAllTeachers=async(req,res,next)=>{
+        try{
+            const teachers=await this.repository.getAllTeachers();
+            res.send({data:teachers});
+        }catch(err){
+            next(err);
+        }
+    }
 }
+
+function encryptFile(inputFile,outputFile){
+    const algorithm = 'aes-256-cbc';
+    const key = generateKey();
+    const iv = generateIV();
+    encrypt(inputFile,outputFile,key,iv,algorithm)
+    return {
+        key:key,
+        iv:iv
+    }
+}
+
+
+
+const generateKey = () => {
+    return crypto.randomBytes(32);
+};
+  
+const generateIV = () => {
+    return crypto.randomBytes(16);
+};
+  
+const encrypt = (inputFile, outputFile, key, iv,algorithm) => {
+    const readStream = fs.createReadStream(inputFile);
+    const writeStream = fs.createWriteStream(outputFile);
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
+  
+    readStream.pipe(cipher).pipe(writeStream);
+  
+    writeStream.on('finish', () => {
+        deleteFile(inputFile);
+    });
+};
+
+const deleteFile = (filePath) => {
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        return;
+      }
+    });
+  };

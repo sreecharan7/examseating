@@ -11,11 +11,12 @@ export class CouresRepository{
             const result=await coures.save();
             return result;
         }catch(err){
-            throw new customError(400,"soething went adding coures");
+            throw new customError(400,"Aldready with this course code exist");
         }
     }
     addMultipleCourses=async (teachers)=>{
         try{
+            console.log(teachers);
             const result=await couresModel.insertMany(teachers);
             return result;
         }catch(err){
@@ -30,5 +31,13 @@ export class CouresRepository{
             throw new customError(400,"something went checking multiple coures");
         }
     }
+    getCouseByTeacherId=async(teacherId)=>{
+        try{
+            const result =await couresModel.find({teacherId:teacherId});
+            return result;
 
+        }catch(err){
+            throw new customError(400,"something went wromg while gettimg courses")
+        }
+    }
 }

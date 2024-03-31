@@ -67,6 +67,14 @@ app.post("/addcourseByExel",upload.single('excel'),authorization,(req,res,next)=
     adminController.addCourseWithRollNoByExel(req,res,next);
 });
 
+
+app.post("/addTeacherByExel",upload.single('excel'),authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.addTeacherByExel(req,res,next);
+});
+
 app.post("/addExam",authorization,(req,res,next)=>{
     req.data={specificRole:"admin"};
     next();

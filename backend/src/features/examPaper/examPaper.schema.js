@@ -13,5 +13,11 @@ export const examPaperSchema = new mongoose.Schema({
     paper:{
         type: String,
         required: true,
-    }
+    },
+    fileName:{
+        type: String,
+        required: true,
+    },
+    key: { type: String, required: true },
+    iv: { type: String, required: true }
 });

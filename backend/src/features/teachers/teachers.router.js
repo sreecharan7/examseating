@@ -16,4 +16,14 @@ checkSpecificRole,
 upload.single("questionPaper"),(req,res,next)=>teacherController.addQuestionPaper(req,res,next));
 
 
+app.get("/getAllTeachersData",authorization,
+(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},
+checkSpecificRole,
+(req,res,next)=>teacherController.getAllTeachers(req,res,next));
+
+
+
 export default app;

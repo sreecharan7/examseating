@@ -6,14 +6,18 @@ import {customError} from "../../middlewares/error.middleware.js"
 const ExamPaper = mongoose.model("ExamPaper", examPaperSchema);
 
 export  class ExamPaperRepository {
-    async createExamPaper(examId,couseCode,paper) {
+    async createExamPaper(examId,couseCode,paper,key,iv,fileName) {
         try{
-            const updatedExamPaper = await User.findOneAndUpdate(
+            const updatedExamPaper = await ExamPaper.findOneAndUpdate(
                 { 
                     examId: examId,
                     couseCode: couseCode
                 }, // Search criteria
-                { paper: paper },    // Update to apply
+                { paper: paper,
+                    iv:iv,
+                    key:key,
+                    fileName:fileName
+                },    // Update to apply
                 { 
                   new: true,            // Return the modified document (default is original)
                   upsert: true          // Create a new document if no match found

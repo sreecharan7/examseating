@@ -12,5 +12,6 @@ app.get("/terms-and-conditions",viewC.termsAndConditions);
 app.get("/v/admin",viewC.adminHome);
 app.get("/v/admin/exams",viewC.examsData);
 app.get("/v/teacher",viewC.teacherHome);
+app.get("/v/admin/teachers",viewC.adminTeacherView);
 
 export default app;

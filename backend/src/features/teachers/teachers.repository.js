@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 import { teacherSchema} from "./teachers.schema.js";
 import {customError} from "../../middlewares/error.middleware.js"
 
-const teaacherModel=mongoose.model("teachers",teacherSchema);
+const teacherModel=mongoose.model("teachers",teacherSchema);
 
 export class TeachersRepository{
     addMultipleTeachers=async (teachers)=>{
         try{
-            const result=await teaacherModel.insertMany(teachers);
+            const result=await teacherModel.insertMany(teachers);
             return result;
         }catch(error){
             throw new customError(400,"Error in adding teachers");
@@ -15,7 +15,7 @@ export class TeachersRepository{
     }
     checkTeacherArray=async (array)=>{
         try{
-            const foundUsers = await teaacherModel.find({ _id: { $in: array } });
+            const foundUsers = await teacherModel.find({ _id: { $in: array } });
             return foundUsers;
         }catch(err){
             throw new customError(500,"something went wrong while checking teachers");
@@ -23,10 +23,18 @@ export class TeachersRepository{
     }
     getTeacherByuserID=async (userId)=>{
         try{
-            const teacher=await teaacherModel.findOne({userId:userId});
+            const teacher=await teacherModel.findOne({userId:userId});
             return teacher;
         }catch(err){
             throw new customError(500,"something went wrong while checking teachers");
+        }
+    }
+    getAllTeachers=async ()=>{
+        try{
+            const teachers=await  teacherModel.find();
+            return teachers;
+        }catch(err){
+
         }
     }
 }

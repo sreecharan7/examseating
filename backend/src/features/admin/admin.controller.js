@@ -162,42 +162,70 @@ export class AdminController{
                 });
             }
             let teachers=await this.teacherRepository.addMultipleTeachers(teacherData);
-            res.status(200).json({message:"teachers added successfully"});
+            if(!req.nores){
+                res.status(200).json({message:"teachers added successfully"});
+            }
+            else{
+                return true;
+            }
         }
         catch(err){
-            next(err);
+            if(!req.nores){
+                next(err);
+            }else{
+                return err;
+            }
         }
+    }
+    addTeacherByExel=async(req,res,next)=>{
+        try{
+        if(!req.file){
+            throw new customError(400,"file is required");
+        }
+        let fileAddress=req.file.path;
+        const workbook = xlsx.readFile(fileAddress);
+        const sheet_name = workbook.SheetNames[0]; 
+        const worksheet = workbook.Sheets[sheet_name];
+        const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+        req.nores=true;
+        let teachers=[];
+        for(let i=1;i<data.length;i++){
+            teachers.push({
+                name:data[i][0],
+                email:data[i][1],
+                about:data[i][2]
+            });
+        }
+        req.body={data:teachers};
+        const teacherData =await this.addTeacher(req,res,next);
+        if(teacherData instanceof Error){
+            throw teacherData;
+        }
+        res.status(200).json({message:"teachers added successfully"});
+    }
+    catch(err){
+        next(err);
+    }
     }
     //add coures
     addCoures=async(req,res,next)=>{
         try{
-            const {data}=req.body;
-            let defaultpassword=req.body["defaultpassword"];
-            if(!defaultpassword){defaultpassword="123456";}
-            //check array validation
-            if(!data||typeof(data)!="object"||!data.length||data.length==0){
+            const data1=req.body;
+
+            if(!data1||!data1["courseCode"]||!data1["courseName"]||!data1["teacherId"]){
                 throw new customError(400,"data is required");
             }
-            let courses=[];
+            let data=[]
+            data.push(data1);
+            //check array validation
             let teacherIds=[];
-            for(let i=0;i<data.length;i++){
-                if(data[i]["courseName"]&&data[i]["courseCode"]&&data[i]["teacherId"]&&isValidObjectId(data[i]["teacherId"])){
-                    courses.push({
-                        courseName:data[i]["courseName"],
-                        courseCode:data[i]["courseCode"],
-                        teacherId:data[i]["teacherId"],
-                    });
-                    teacherIds.push(data[i]["teacherId"]);
-                }else{
-                    throw new customError(400,"error at data at "+i);
-                }
-            }
+            teacherIds.push(data1["teacherId"]);
             //check teacher exist or no5t with their id
             let teacherCheck=await this.teacherRepository.checkTeacherArray(teacherIds);
             if(teacherCheck.length!=teacherIds.length){
                 throw new customError(400,"teacher not found");
             }
-            let coures = await this.couresRepository.addMultipleCourses(courses);
+            let coures = await this.couresRepository.addCoures(data1["courseName"],data1["courseCode"],data1["teacherId"]);
             res.status(200).json({message:"coures added successfully"});
 
         }catch(err){

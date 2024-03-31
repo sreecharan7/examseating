@@ -261,3 +261,64 @@ Time: 2024-03-30T13:37:04.577Z, StatusCode: 400, Error: {"status":false,"msg":"y
 Time: 2024-03-30T13:38:19.674Z, StatusCode: 400, Error: {"status":false,"msg":"you are not authorized to access this role"}, IP: ::1, URL: /api/admin/addcourseByExel
 Time: 2024-03-30T16:29:11.265Z, StatusCode: 400, Error: {"status":false,"msg":"something went wrong while adding ExamPaper"}, IP: ::1, URL: /api/teacher/addQuestionPaper
 Time: 2024-03-30T16:30:09.450Z, StatusCode: 400, Error: {"status":false,"msg":"something went wrong while adding ExamPaper"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-31T03:48:17.485Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addcourseByExel
+Time: 2024-03-31T03:48:24.883Z, StatusCode: 400, Error: {"status":false,"msg":"semesterName is required"}, IP: ::1, URL: /api/admin/addcourseByExel
+Time: 2024-03-31T03:54:19.669Z, StatusCode: 400, Error: {"status":false,"msg":"Course not found"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-31T03:54:25.323Z, StatusCode: 400, Error: {"status":false,"msg":"You are not authorized to add question paper to this course"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-31T03:54:51.136Z, StatusCode: 400, Error: {"status":false,"msg":"You are not authorized to add question paper to this course"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-31T03:54:54.697Z, StatusCode: 400, Error: {"status":false,"msg":"Exam not found"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-31T05:03:17.182Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/teacher/addQuestionPaper,msg:algorithm is not defined
+sTime: 2024-03-31T05:04:08.754Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/teacher/addQuestionPaper,msg:The "cipher" argument must be of type string. Received undefined
+sTime: 2024-03-31T05:08:36.600Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/teacher/addQuestionPaper,msg:The "cipher" argument must be of type string. Received undefined
+sTime: 2024-03-31T05:09:47.507Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/teacher/addQuestionPaper,msg:The "cipher" argument must be of type string. Received undefined
+sTime: 2024-03-31T09:02:01.728Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-03-31T09:26:44.227Z, StatusCode: 400, Error: {"status":false,"msg":"cookie is not there"}, IP: ::1, URL: /api/admin/addTeacherByExel
+Time: 2024-03-31T09:31:05.173Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addTeacherByExel
+Time: 2024-03-31T09:31:09.093Z, StatusCode: 400, Error: {"status":false,"msg":"email already existf"}, IP: ::1, URL: /api/admin/addTeacherByExel
+Time: 2024-03-31T11:21:44.660Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/course/getCourses?teacherId=660653ca4aee599b0278c03f,msg:next is not a function
+sTime: 2024-03-31T11:22:43.340Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/course/getCourses?teacherId=660653ca4aee599b0278c03f,msg:next is not a function
+sTime: 2024-03-31T11:25:32.628Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/course/getCourses?teacherId=660653ca4aee599b0278c03f,msg:teachersId is not defined
+sTime: 2024-03-31T13:26:32.509Z, StatusCode: 404, Error: {"status":false,"msg":"User not found"}, IP: ::1, URL: /api/user/login
+Time: 2024-03-31T13:56:17.050Z, StatusCode: 400, Error: {"status":false,"msg":"cookie is not there"}, IP: ::1, URL: /api/teacher/getAllTeachersData
+Time: 2024-03-31T13:56:30.850Z, StatusCode: 400, Error: {"status":false,"msg":"Password is not correct"}, IP: ::1, URL: /api/user/login
+Time: 2024-03-31T15:16:28.996Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:29.526Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:29.741Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:30.949Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:36.671Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:46.742Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:48.335Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:16:48.869Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:18:09.884Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:18:30.045Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:19:05.001Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Unexpected token o in JSON at position 1
+sTime: 2024-03-31T15:19:27.662Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Unexpected token o in JSON at position 1
+sTime: 2024-03-31T15:20:24.646Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Unexpected token o in JSON at position 1
+sTime: 2024-03-31T15:24:03.525Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:24:14.445Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:24:43.814Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:25:02.929Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:25:27.253Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Unexpected token o in JSON at position 1
+sTime: 2024-03-31T15:25:35.652Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Unexpected token o in JSON at position 1
+sTime: 2024-03-31T15:31:18.920Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:31:35.324Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:31:45.630Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:32:10.454Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:courseCode is not defined
+sTime: 2024-03-31T15:32:55.520Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:courseCode is not defined
+sTime: 2024-03-31T15:33:05.664Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:courseCode is not defined
+sTime: 2024-03-31T15:33:29.621Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:34:15.830Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:37:07.079Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:37:35.802Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Cannot read properties of undefined (reading 'courseCode')
+sTime: 2024-03-31T15:38:09.418Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Cannot read properties of undefined (reading 'courseCode')
+sTime: 2024-03-31T15:40:25.176Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::ffff:127.0.0.1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:41:05.769Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:41:58.197Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:42:53.984Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addCoures,msg:Cannot read properties of undefined (reading 'courseCode')
+sTime: 2024-03-31T15:44:36.981Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple coures"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:45:50.363Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple coures"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:46:42.674Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple coures"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:53:30.025Z, StatusCode: 400, Error: {"status":false,"msg":"soething went adding coures"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:53:53.261Z, StatusCode: 400, Error: {"status":false,"msg":"soething went adding coures"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:55:56.847Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T15:57:58.568Z, StatusCode: 400, Error: {"status":false,"msg":"Aldready with this course code exist"}, IP: ::1, URL: /api/admin/addCoures
