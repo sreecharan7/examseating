@@ -1,8 +1,9 @@
-// const fs = require('fs');
-// const students = JSON.parse(fs.readFileSync('./privatedata/jsondata/anewstudents.json'));
-// const exam_halls = JSON.parse(fs.readFileSync('./privatedata/jsondata/anewclasses.json'));
-
-
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Generate random index from 0 to i
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements at i and j
+    }
+}
 function make_visarray(exam_halls) {
     let class_vis_array = [];
     for (let i = 0; i < exam_halls.length; i = i + 1) {
@@ -20,7 +21,6 @@ function make_visarray(exam_halls) {
     }
     return class_vis_array
 }
-
 function make_students_year(classes, fooddata) {
     let mymap = new Map();
     console.log(classes)
@@ -52,7 +52,6 @@ function make_students_course(classes, fooddata) {
     let sortedMapDesc = new Map([...mymap.entries()].sort((a, b) => b[1] - a[1]));
     return sortedMapDesc
 }
-
 function fill_class(myarray, stuts, som, final_seats) {
     let v = 0;
     for (let i = 0; i < myarray.length; i++) {
@@ -60,11 +59,37 @@ function fill_class(myarray, stuts, som, final_seats) {
             for (let k = 0; k < myarray[i][j].length; k++) {
                 for (let l = 0; l < myarray[i][j][k].length; l = l + 1) {
                     if (v == stuts.length) break;
-                    if ((myarray[i][j][k][l] == 0) && (l == 0 || myarray[i][j][k][l - 1] != som)) {
+                    if ((myarray[i][j][k][l] == 0) && (l == 0 || (l == 1 && myarray[i][j][k][l - 1] != som) || (l > 1 && myarray[i][j][k][l - 1] != som && myarray[i][j][k][l - 2] != som))) {
                         final_seats[i][j][k][l] = stuts[v];
                         myarray[i][j][k][l] = som; v = v + 1;
-                        break;
                     }
+                }
+            }
+        }
+    }
+    if (v < stuts.length) {
+
+        return 0;
+    } else {
+        return 1;
+    }
+}
+function fill_class_grace(myarray, stuts, som, final_seats) {
+    let v = 0;
+    for (let i = 0; i < myarray.length; i++) {
+        for (let j = 0; j < myarray[i].length; j++) {
+            for (let k = 0; k < myarray[i][j].length; k++) {
+                let fl=0;
+                for (let l = 0; l < myarray[i][j][k].length; l = l + 1) {
+                    if (v == stuts.length) break;
+                    if ((myarray[i][j][k][l] == 0) && (l == 0 || (l == 1 && myarray[i][j][k][l - 1] != som) || (l > 1 && myarray[i][j][k][l - 1] != som && myarray[i][j][k][l - 2] != som))) {
+                        final_seats[i][j][k][l] = stuts[v];
+                        myarray[i][j][k][l] = som; v = v + 1;
+                        flag=1;
+                    }
+                }
+                if(flag){
+                    k=k+1;
                 }
             }
         }
@@ -75,8 +100,7 @@ function fill_class(myarray, stuts, som, final_seats) {
         return 1;
     }
 }
-
-function retu_object(final_seats, exam_halls){
+function retu_object(final_seats, exam_halls) {
     let final_object = {};
     final_object.error = false;
     let cs = []
@@ -98,23 +122,23 @@ function retu_object(final_seats, exam_halls){
         if (final_seats[i].length == 0 || final_seats[i][0][0][0] == 0) {
             a1.isfilled = false;
         }
-        let fima=0;
-        let mb=0;
-        let siz=[];
-        for (let j = 0; j < final_seats[i].length;j=j+1){
-            if (final_seats[i][j].length>mb){
+        let fima = 0;
+        let mb = 0;
+        let siz = [];
+        for (let j = 0; j < final_seats[i].length; j = j + 1) {
+            if (final_seats[i][j].length > mb) {
                 mb = final_seats[i][j].length;
             }
-            let ma=0;
-            for (let k = 0; k < final_seats[i][j].length;k=k+1){
-                if (final_seats[i][j][k].length>ma){
+            let ma = 0;
+            for (let k = 0; k < final_seats[i][j].length; k = k + 1) {
+                if (final_seats[i][j][k].length > ma) {
                     ma = final_seats[i][j][k].length;
                 }
             }
             siz.push(ma);
-            fima = fima+ma;
+            fima = fima + ma;
         }
-        let cs2=[]
+        let cs2 = []
         let f = 0;
         let arrayWithZeros1 = new Array(fima).fill("-1");
         for (let k = 0; k < siz.length; k++) {
@@ -124,21 +148,18 @@ function retu_object(final_seats, exam_halls){
             f += siz[k];
         }
         cs2.push(arrayWithZeros1);
-        for (let j = 0; j < mb;j=j+1){
-
-            let mc=0;
+        for (let j = 0; j < mb; j = j + 1) {
+            let mc = 0;
             let arrayWithZeros = new Array(fima).fill("-");
-          
-            for (let k = 0; k < siz.length;k++){
-                for (let l = 0; l < siz[k] && l<final_seats[i][k][j].length;l=l+1){
+            for (let k = 0; k < siz.length; k++) {
+                for (let l = 0; l < siz[k] && l < final_seats[i][k][j].length; l = l + 1) {
                     arrayWithZeros[mc + l] = final_seats[i][k][j][l];
                 }
-                mc+=siz[k];
+                mc += siz[k];
             }
             cs2.push(arrayWithZeros)
         }
         a1.seating = cs2;
-
         cs1.push(a1)
     }
 
@@ -146,12 +167,11 @@ function retu_object(final_seats, exam_halls){
     final_object.classes_data = cs1;
     return final_object
 }
+export function gets_seating(data, basedon = "year",grace=0) {
 
-
-export function gets_seating(data, basedon="year") {
-
-    let students=data.students
-    let exam_halls=data.classes
+    let students = data.students
+    let exam_halls = data.classes
+    shuffleArray(exam_halls);
     let class_vis = make_visarray(exam_halls);
     var final_seats = JSON.parse(JSON.stringify(class_vis));
     var classes = {};
@@ -162,17 +182,31 @@ export function gets_seating(data, basedon="year") {
         sortedMapDesc = make_students_course(classes, students)
     }
     // console.log(sortedMapDesc)
-    for (let key of sortedMapDesc.keys()) {
-        classes[key].sort();
-        if (fill_class(class_vis, classes[key], key, final_seats) == 0) {
-            let hjk = {
-                "error": true,
-                "msg": "ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"
+    if(!grace){
+        for (let key of sortedMapDesc.keys()) {
+            classes[key].sort();
+            if (fill_class(class_vis, classes[key], key, final_seats) == 0) {
+                let hjk = {
+                    "error": true,
+                    "msg": "ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"
+                }
+                return hjk;
             }
-            return hjk;
+        }
+    }else{
+        for (let key of sortedMapDesc.keys()) {
+            classes[key].sort();
+            if (fill_class_grace(class_vis, classes[key], key, final_seats) == 0) {
+                let hjk = {
+                    "error": true,
+                    "msg": "GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"
+                }
+                return hjk;
+            }
         }
     }
     return retu_object(final_seats, exam_halls)
 
 
 }
+

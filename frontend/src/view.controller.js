@@ -32,4 +32,20 @@ export class viewController{
             next(err);
         }
     }
+    examsData=async (req,res,next)=>{
+        try{
+            await res.render("examsData",{title:"Exams Data",javascript:`<script type="text/javascript" src="/javascript/examsData.js" ></script>`});
+        }
+        catch(err){
+            next(err);
+        }
+    }
+    teacherHome=async (req,res,next)=>{
+        try{
+            await res.render("teachersHome",{title:"Teacher Home",javascript:`<script type="text/javascript" src="/javascript/teacherHome.js" ></script>`});
+        }
+        catch(err){
+            next(err);
+        }
+    }
 }

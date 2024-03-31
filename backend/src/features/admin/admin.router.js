@@ -80,5 +80,18 @@ app.post("/addAllocateSeat",authorization,(req,res,next)=>{
 },checkSpecificRole,(req,res,next)=>{
     adminController.allocateSeat(req,res,next);
 });
+app.get("/exams",authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.getAllExams(req,res,next);
+});
+app.get("/examsPapers",authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.getAllExamPapers(req,res,next);
+});
+
 
 export default app;

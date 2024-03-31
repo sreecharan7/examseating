@@ -204,4 +204,60 @@ Time: 2024-03-30T08:27:49.802Z, StatusCode: 500, Error: something wrong with the
 sTime: 2024-03-30T08:33:12.562Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
 sTime: 2024-03-30T08:35:06.395Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
 sTime: 2024-03-30T08:37:29.535Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0.xlsx'
-s
+sTime: 2024-03-30T09:15:25.604Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0-classRoomData.xlsx'
+sTime: 2024-03-30T09:48:10.225Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-03-30T09:48:19.447Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-03-30T09:51:09.674Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-03-30T09:51:15.471Z, StatusCode: 400, Error: {"status":false,"msg":"startDate , endDate ,semseterName is required"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-03-30T09:51:33.831Z, StatusCode: 400, Error: {"status":false,"msg":"email already exist"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-03-30T10:20:35.127Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addcourseByExel
+Time: 2024-03-30T10:37:54.020Z, StatusCode: 400, Error: {"status":false,"msg":"file is required"}, IP: ::1, URL: /api/admin/addcourseByExel
+Time: 2024-03-30T10:48:51.744Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-30T10:50:55.107Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-30T10:54:11.310Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-30T10:54:22.401Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-30T11:03:10.164Z, StatusCode: 404, Error: {"status":false,"msg":"User not found"}, IP: ::1, URL: /api/user/login
+Time: 2024-03-30T11:12:17.248Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:12:50.260Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:13:00.199Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:14:22.020Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:14:59.987Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:16:24.743Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:16:42.451Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:17:36.340Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:19:28.544Z, StatusCode: 400, Error: {"status":false,"msg":"course not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:21:25.983Z, StatusCode: 400, Error: {"status":false,"msg":"course not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:21:41.561Z, StatusCode: 400, Error: {"status":false,"msg":"course not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:27:56.958Z, StatusCode: 400, Error: {"status":false,"msg":"course not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:28:17.581Z, StatusCode: 400, Error: {"status":false,"msg":"course not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:28:53.414Z, StatusCode: 400, Error: {"status":false,"msg":"course not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:30:02.130Z, StatusCode: 400, Error: {"status":false,"msg":"classes not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:30:15.923Z, StatusCode: 400, Error: {"status":false,"msg":"classes not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:31:43.914Z, StatusCode: 400, Error: {"status":false,"msg":"classes not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T11:53:22.994Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:EBUSY: resource busy or locked, open 'data\excels\6607322e0b337d2b93be60a0-classRoomData.xlsx'
+sTime: 2024-03-30T11:54:21.259Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/admin/addAllocateSeat,msg:flag is not defined
+sTime: 2024-03-30T12:27:07.710Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:27:08.412Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:27:18.001Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:27:42.702Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:27:50.422Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:29:12.749Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:29:40.950Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:46:39.910Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:48:50.373Z, StatusCode: 400, Error: {"status":false,"msg":"classes not found"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T12:50:24.695Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addAllocateSeat
+Time: 2024-03-30T12:59:18.402Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:00:41.591Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:01:17.084Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:01:50.510Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:02:30.573Z, StatusCode: 400, Error: {"status":false,"msg":"GIVEN CLASSES ARE NOT ENOUGH WITH GRACE TRY WITHOUT GRACE OR INCREASE NO OF CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:04:22.980Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:05:17.223Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:08:04.828Z, StatusCode: 400, Error: {"status":false,"msg":"ALL THE STUDENTS CANNOT BE FILLED IN THE GIVEN CLASSES"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-03-30T13:21:18.084Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /v/teacher,msg:Failed to lookup view "teacherHome" in views directory "C:\Users\sree charan\Desktop\hacthon-2\main\frontend\views"
+sTime: 2024-03-30T13:34:26.575Z, StatusCode: 500, Error: something wrong with the server, IP: ::1, URL: /api/teacher/addQuestionPaper,msg:Unexpected field
+sTime: 2024-03-30T13:35:37.908Z, StatusCode: 400, Error: {"status":false,"msg":"Exam not found"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-30T13:37:04.577Z, StatusCode: 400, Error: {"status":false,"msg":"you are not authorized to access this role"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-30T13:38:19.674Z, StatusCode: 400, Error: {"status":false,"msg":"you are not authorized to access this role"}, IP: ::1, URL: /api/admin/addcourseByExel
+Time: 2024-03-30T16:29:11.265Z, StatusCode: 400, Error: {"status":false,"msg":"something went wrong while adding ExamPaper"}, IP: ::1, URL: /api/teacher/addQuestionPaper
+Time: 2024-03-30T16:30:09.450Z, StatusCode: 400, Error: {"status":false,"msg":"something went wrong while adding ExamPaper"}, IP: ::1, URL: /api/teacher/addQuestionPaper

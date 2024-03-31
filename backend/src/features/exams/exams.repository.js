@@ -28,4 +28,18 @@ export class ExamRepository{
             throw new customError(400,"something went wrong while checking exam");
         }
     }
+    getAllExams(){
+        try{
+            return examModel.find({});
+        }catch(err){
+            throw new customError(400,"something went wrong while checking exam");
+        }
+    }
+    deleteExamById(id){
+        try{
+            return examModel.findByIdAndDelete(id);
+        }catch(err){
+            throw new customError(400,"something went wrong while deleting exam");
+        }
+    }
 }

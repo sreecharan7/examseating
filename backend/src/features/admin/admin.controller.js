@@ -8,6 +8,7 @@ import {AttedanceRepository} from "../attendance/attedance.repository.js"
 import {classesRepositroy} from "../classes/classes.repository.js"
 import {ExamRepository} from "../exams/exams.repository.js"
 import {gets_seating} from "../../../algorithm/as.js"
+import {ExamPaperRepository} from "../examPaper/examPaper.repository.js"
 
 import xlsx from 'xlsx';
 import path from 'path';
@@ -30,6 +31,7 @@ export class AdminController{
         this.attedanceRepository=new AttedanceRepository();
         this.classesRepositroy=new classesRepositroy();
         this.examRepository=new ExamRepository();
+        this.examPaperRepository=new ExamPaperRepository();
     }
     //add student
     addStudent=async(req,res,next)=>{
@@ -443,9 +445,15 @@ export class AdminController{
     addExam=async (req,res,next)=>{
         try {
             let {name,classes,courses,examDate,startTime}=req.body;
+            console.log(req.body);
             if(!name||!classes||classes.length==0||!examDate||!startTime||!courses||courses.length==0){
                 throw new customError(400,"name,classes,courses,examDate,startTime is required");
             }
+            let classesArray=courses.split(",");
+            courses=classesArray;
+            console.log(courses);
+            let classesArray1=classes.split(",");
+            classes=classesArray1;
             //check coures exist or not in database
             let map={};
             for(let i=0;i<courses.length;i++){
@@ -459,7 +467,15 @@ export class AdminController{
             if(classesChecker.length!=classes.length){
                 throw new customError(400,"classes not found");
             }
-            await this.examRepository.addExam(name,classes,courses,examDate,startTime);
+            let exam=await this.examRepository.addExam(name,classes,courses,examDate,startTime);
+            req.nores=true;
+            req.body={examId:exam._id};
+            let allocate=await this.allocateSeat(req,res,next);
+            console.log(allocate);
+            if(allocate instanceof Error||!allocate){
+                await this.examRepository.deleteExamById(exam._id);
+                return;
+            }
             res.status(200).json({message:"exam added successfully"});
         } catch (err) {
             next(err);
@@ -513,7 +529,6 @@ export class AdminController{
                 classes:classesChecker
             }
             let seating=gets_seating(sendData,"course");
-            console.log(seating);
             if(seating["error"]){
                 throw new customError(400,seating["msg"]);
             }
@@ -530,7 +545,7 @@ export class AdminController{
                 data=[];
             }
             
-            let filePath = path.join( `./data/excels/${examId}.xlsx`);
+            let filePath = path.join( `./public/excels/${examId}.xlsx`);
 
             xlsx.writeFile(workbook, filePath);
 
@@ -544,7 +559,7 @@ export class AdminController{
             const worksheet = xlsx.utils.aoa_to_sheet(data);
             xlsx.utils.book_append_sheet(workbook, worksheet, `notAllowedStudents`);
 
-            let filePath1 = path.join( `./data/excels/${examId}-notAllowedStudents.xlsx`);
+            let filePath1 = path.join( `./public/excels/${examId}-notAllowedStudents.xlsx`);
             xlsx.writeFile(workbook, filePath1);
             
             workbook=xlsx.utils.book_new();
@@ -568,10 +583,33 @@ export class AdminController{
                 const worksheet = xlsx.utils.aoa_to_sheet(classData);
                 xlsx.utils.book_append_sheet(workbook, worksheet, `${seating["classes_data"][i]["name"]}`);
             }
-            let filePath2 = path.join( `./data/excels/${examId}-classRoomData.xlsx`);
+            let filePath2 = path.join( `./public/excels/${examId}-classRoomData.xlsx`);
             xlsx.writeFile(workbook, filePath2);
-
-            res.send({msg:"allocated sucessfuly"});
+            if(!req.nores){
+                res.status(200).json({msg:"allocated sucessfuly"});
+            }else{
+                return {msg:"allocated sucessfuly"};
+            }
+        }catch(err){
+            next(err);
+        }
+    }
+    getAllExams=async (req,res,next)=>{
+        try{
+            let exams=await this.examRepository.getAllExams();
+            res.status(200).json({exams});
+        }catch(err){
+            next(err);
+        }
+    }
+    getAllExamPapers=async (req,res,next)=>{
+        try{
+            console.log(req.query);
+            if(!req.query||!req.query.examId||!isValidObjectId(req.query.examId)){
+                throw new customError(400,"examId is required");
+            }
+            let examPapers=await this.examPaperRepository.getPapersById(req.query.examId);
+            res.status(200).json({examPapers});
         }catch(err){
             next(err);
         }

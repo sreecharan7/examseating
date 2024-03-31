@@ -10,5 +10,7 @@ app.get("/",viewC.home);
 app.get("/login",viewC.login);
 app.get("/terms-and-conditions",viewC.termsAndConditions);
 app.get("/v/admin",viewC.adminHome);
+app.get("/v/admin/exams",viewC.examsData);
+app.get("/v/teacher",viewC.teacherHome);
 
 export default app;
