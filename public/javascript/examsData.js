@@ -112,8 +112,8 @@ async function getExamPapers(examId){
                 for(let i=0;i<examPapersData.length;i++){
                     let examPaper=examPapersData[i];
                     map[examPaper.couseCode]=1;
-                    // modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <button  class="btn btn-primary btn-sm" onclick="decryptFile('${examPaper._id}')">Download</button><h5>`;
-                    modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <a  class="btn btn-primary btn-sm" href="/papers/${examPaper.paper}" download>Download</a><h5>`;
+                    modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <button  class="btn btn-primary btn-sm" onclick="decryptFile('${examPaper._id}')">Download</button><h5>`;
+                    // modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <a  class="btn btn-primary btn-sm" href="/papers/${examPaper.paper}" download>Download</a><h5>`;
 
                 }
                 let exam=examById(examId);
@@ -169,82 +169,87 @@ function examPapersById(id){
     return null;
 }
 
-async function decryptFile(examPaperId){
-    let data=examPapersById(examPaperId);
-    // fetch(`/papers/${data.paper}`)
+async function decryptFile(examPaperId) {
+    let data = examPapersById(examPaperId);
+    var key = CryptoJS.enc.Hex.parse(`${data.key}`);
+    var iv = CryptoJS.enc.Hex.parse(`${data.iv}`);
+    var encryptedFilePath = `/papers/${data.paper}`;
+
     try {
-        // Fetch the encrypted file from the backend
-        const response = await fetch('/papers/questionPaper-1711862984008-.xlsx.enc');
-        if (!response.ok) {
-          throw new Error('Failed to fetch encrypted file');
+        const response = await fetch(encryptedFilePath);
+        const arrayBuffer = await response.arrayBuffer();
+
+        // Create a WordArray from the ArrayBuffer
+        var encryptedText = CryptoJS.lib.WordArray.create(arrayBuffer);
+        var aesDecryptor = CryptoJS.algo.AES.createDecryptor(key, { iv: iv });
+
+        // Variables for decrypted parts
+        var decryptedParts = [];
+        var chunkSize = 1024; // You can adjust the chunk size as needed
+
+        for (var i = 0; i < encryptedText.sigBytes; i += chunkSize) {
+            var chunk = CryptoJS.lib.WordArray.create(encryptedText.words.slice(i, i + chunkSize));
+            var decryptedChunk = aesDecryptor.process(chunk);
+
+            // Store the decrypted chunks
+            decryptedParts.push(decryptedChunk);
         }
-        
-        // Get the encrypted file as a base64 string
-        const encryptedFile = await response.blob();
-    
-        // Convert IV and key from base64
-        const iv = data.iv;
-        const key = data.key; 
-    
-        const ivBuffer = stringToArrayBuffer(iv);
-        const keyBuffer = stringToArrayBuffer(key);
-        
-        const algorithm = { name: 'AES-CBC', iv: ivBuffer };
-    
-        const decryptedBuffer = await crypto.subtle.decrypt(
-          algorithm,
-          keyBuffer,
-          await fileToArrayBuffer(encryptedFile)
-        );
-    
-        const decryptedBlob = new Blob([decryptedBuffer], { type: 'application/octet-stream' });
-    
-        // Create a download link and trigger download
-        const url = URL.createObjectURL(decryptedBlob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'decrypted_file.xlsx';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+
+        // Finalize the decryption
+        var decryptedFinal = aesDecryptor.finalize();
+
+        // Combine decrypted parts into a single WordArray
+        var decryptedWordArray = CryptoJS.lib.WordArray.create();
+        for (var part of decryptedParts) {
+            decryptedWordArray.concat(part);
+        }
+        decryptedWordArray.concat(decryptedFinal);
+
+        // Convert the WordArray to an ArrayBuffer
+        var decryptedArrayBuffer = wordArrayToBuffer(decryptedWordArray);
+
+        // Create a Blob from the decrypted ArrayBuffer
+        var blob = new Blob([decryptedArrayBuffer], { type: response.headers.get('content-type') });
+
+        // Create a temporary URL for the Blob
+        var url = URL.createObjectURL(blob);
+
+        // Create a link element for download
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = fileName(data); // Set the filename based on the original filename
+
+        // Append the link to the body and click it programmatically
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        document.body.removeChild(link);
         URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error('Error:', error.message);
-      }
-}
-    // Helper function to convert base64 string to ArrayBuffer
-    function base64ToArrayBuffer(base64) {
-      const binaryString = window.atob(base64);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      return bytes.buffer;
-
-}
-
-
-function base64ToArrayBuffer(base64) {
-    const binaryString = window.atob(base64);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+    } catch (error) {
+        console.error('Error fetching or decrypting file:', error);
     }
-    return bytes.buffer;
-  }
-  
-  // Helper function to convert Blob to ArrayBuffer
-  function fileToArrayBuffer(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(blob);
-    });
-  }
-  function stringToArrayBuffer(str) {
-    const encoder = new TextEncoder();
-    return encoder.encode(str);
-  }
+}
+
+// Custom function to convert WordArray to ArrayBuffer
+function wordArrayToBuffer(wordArray) {
+    var len = wordArray.sigBytes;
+    var words = wordArray.words;
+    var buffer = new ArrayBuffer(len);
+    var uint8View = new Uint8Array(buffer);
+    for (var i = 0; i < len; i++) {
+        uint8View[i] = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
+    }
+    return buffer;
+}
+function fileName(data){
+    let exam=examById(data.examId);
+    let filename="";
+    filename=data.couseCode+"-"+exam.name+"."+extractType(data.paper);
+    return filename;
+}
+function extractType(fileName){
+    console.log(fileName);
+    let d=fileName.split(".");
+    return d[d.length-2];
+}

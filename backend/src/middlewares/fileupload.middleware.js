@@ -12,7 +12,7 @@ const storage=multer.diskStorage({
             ds=ds+"/excels"
         }
         else{
-            ds="public/papers"
+            ds="data/others"
         }
         cb(null,ds);
     },

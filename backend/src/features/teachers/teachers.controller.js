@@ -5,7 +5,9 @@ import {ExamPaperRepository} from "../examPaper/examPaper.repository.js";
 import {ExamRepository} from "../exams/exams.repository.js"
 import crypto  from'crypto';
 import fs  from'fs';
-
+import {createCipheriv,randomFill,scrypt} from "crypto"
+import { pipeline } from "stream"
+import { createReadStream,createWriteStream } from "fs"
 
 export class TeachersController{
     constructor(){
@@ -36,12 +38,10 @@ export class TeachersController{
             if(!examData){
                 throw new  customError(400,"Exam not found");
             }
-            // let eccData=encryptFile(`./${req.file.destination}/${req.file.filename}`,`./public/papers/${req.file.filename}.enc`);
-            //delete the original file.
-            //convet the key and iv to string
-            // eccData.key=eccData.key.toString('hex');
-            // eccData.iv=eccData.iv.toString('hex');
-            await this.examPaperRepository.createExamPaper(examId,couseCode,`${req.file.filename}`);
+            let eccData=encryptFile(`./${req.file.destination}/${req.file.filename}`,`./public/papers/${req.file.filename}.enc`);
+            eccData.key=eccData.key.toString('hex');
+            eccData.iv=eccData.iv.toString('hex');
+            await this.examPaperRepository.createExamPaper(examId,couseCode,`${req.file.filename}.enc`,eccData.key,eccData.iv);
             res.status(201).json({message:"Question paper added successfully"});
         }catch(err){
             next(err);
@@ -58,7 +58,7 @@ export class TeachersController{
 }
 
 function encryptFile(inputFile,outputFile){
-    const algorithm = 'aes-256-cbc';
+    const algorithm = 'aes-192-cbc';
     const key = generateKey();
     const iv = generateIV();
     encrypt(inputFile,outputFile,key,iv,algorithm)
@@ -71,7 +71,7 @@ function encryptFile(inputFile,outputFile){
 
 
 const generateKey = () => {
-    return crypto.randomBytes(32);
+    return crypto.randomBytes(24);
 };
   
 const generateIV = () => {
