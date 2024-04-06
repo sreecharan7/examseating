@@ -322,3 +322,31 @@ Time: 2024-03-31T15:53:30.025Z, StatusCode: 400, Error: {"status":false,"msg":"s
 Time: 2024-03-31T15:53:53.261Z, StatusCode: 400, Error: {"status":false,"msg":"soething went adding coures"}, IP: ::1, URL: /api/admin/addCoures
 Time: 2024-03-31T15:55:56.847Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addCoures
 Time: 2024-03-31T15:57:58.568Z, StatusCode: 400, Error: {"status":false,"msg":"Aldready with this course code exist"}, IP: ::1, URL: /api/admin/addCoures
+Time: 2024-03-31T16:31:13.461Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:31:43.928Z, StatusCode: 400, Error: {"status":false,"msg":"data is required"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:32:37.018Z, StatusCode: 400, Error: {"status":false,"msg":"error at data at 0"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:38:46.244Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:39:40.377Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:40:11.939Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:41:27.234Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:41:27.621Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-03-31T16:44:10.194Z, StatusCode: 400, Error: {"status":false,"msg":"something went adding multiple classes"}, IP: ::1, URL: /api/admin/addClasses
+Time: 2024-04-02T07:55:11.909Z, StatusCode: 400, Error: {"status":false,"msg":"Password is not correct"}, IP: ::1, URL: /api/user/login
+Time: 2024-04-02T07:56:19.728Z, StatusCode: 404, Error: {"status":false,"msg":"User not found"}, IP: ::1, URL: /api/user/login
+Time: 2024-04-02T07:56:37.958Z, StatusCode: 400, Error: {"status":false,"msg":"Password is not correct"}, IP: ::1, URL: /api/user/login
+Time: 2024-04-02T08:55:47.282Z, StatusCode: 400, Error: {"status":false,"msg":"name,classes,courses,examDate,startTime is required"}, IP: ::1, URL: /api/admin/addExam
+Time: 2024-04-02T09:22:57.513Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,about is required"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T09:23:03.513Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,about is required"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T09:23:14.245Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,about is required"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T09:23:57.338Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,about is required"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T09:26:52.653Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,about is required"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T09:26:58.728Z, StatusCode: 500, Error: {"status":false,"msg":"something went wrong while adding user"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T09:28:44.733Z, StatusCode: 400, Error: {"status":false,"msg":"email already existf"}, IP: ::1, URL: /api/admin/addTeacherOne
+Time: 2024-04-02T10:08:05.451Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,rollNo,branch,year is required"}, IP: ::1, URL: /api/admin/addStudentOne
+Time: 2024-04-02T10:08:16.439Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,rollNo,branch,year is required"}, IP: ::1, URL: /api/admin/addStudentOne
+Time: 2024-04-02T10:08:45.400Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,rollNo,branch,year is required"}, IP: ::1, URL: /api/admin/addStudentOne
+Time: 2024-04-02T10:11:12.949Z, StatusCode: 400, Error: {"status":false,"msg":"name,email,rollNo,branch,year is required"}, IP: ::1, URL: /api/admin/addStudentOne
+Time: 2024-04-02T10:14:14.185Z, StatusCode: 400, Error: {"status":false,"msg":"email already exist"}, IP: ::1, URL: /api/admin/addStudentOne
+Time: 2024-04-02T11:15:28.797Z, StatusCode: 400, Error: {"status":false,"msg":"Password is not correct"}, IP: ::1, URL: /api/user/login
+Time: 2024-04-02T11:19:04.374Z, StatusCode: 500, Error: {"status":false,"msg":"something went wrong while adding user"}, IP: ::1, URL: /api/admin/addstudenstByExel
+Time: 2024-04-02T11:19:55.462Z, StatusCode: 500, Error: {"status":false,"msg":"something went wrong while adding user"}, IP: ::1, URL: /api/admin/addstudenstByExel

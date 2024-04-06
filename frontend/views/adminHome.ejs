@@ -5,7 +5,8 @@
             <div class="card-body">
               <h5 class="card-title">Add student</h5>
               <p class="card-text">Add the students in the excel sheet in format (Name,ROOLNO,email,branch,year,payment)</p>
-              <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addStudents()" data-bs-target="#modal">add Students</a>
+              <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addStudents()" data-bs-target="#modal">add Students by excel</button>
+              <button href="#" class="btn btn-primary hover mt-2 " data-bs-toggle="modal"  onclick="addStudentManually()" data-bs-target="#modal">add Students Manually</button>
             </div>
         </div>
         <div class="card mx-2" style="width: 18rem;">
@@ -13,7 +14,7 @@
             <div class="card-body">
               <h5 class="card-title">Add Coures or Update Attedance</h5>
               <p class="card-text">Add the courses in the excel sheet in format ( rollno	coursecode	attedancepercentage)</p>
-              <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addCoursesToStudents()" data-bs-target="#modal">add courses</a>
+              <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addCoursesToStudents()" data-bs-target="#modal">add courses</button>
             </div>
         </div>
         <div class="card mx-2" style="width: 18rem;">
@@ -21,7 +22,7 @@
             <div class="card-body">
               <h5 class="card-title">Add Classes</h5>
               <p class="card-text">Add the Classes with their no of rows and colums and the  no of teachers required</p>
-              <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addClasses()" data-bs-target="#modal">add classes</a>
+              <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addClasses()" data-bs-target="#modal">add classes</button>
             </div>
         </div>
         <div class="card mx-2" style="width: 18rem;">
@@ -29,23 +30,21 @@
           <div class="card-body">
             <h5 class="card-title">Add Exam</h5>
             <p class="card-text">Add Exam with course Id list and class list</p>
-            <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addExam()" data-bs-target="#modal">add classes</a>
+            <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addExam()" data-bs-target="#modal">add Exam</button>
+            <a href="/v/admin/exams" class="btn btn-primary hover " style="margin-left: 2px;" >view all Exams</a>
           </div>
       </div>
-      <div class="card mx-2 mt-2" style="width: 18rem;">
-        <img src="/img/exam.webp" class="card-img-top" alt="..." height="200px"  style="object-fit: cover;">
-        <div class="card-body">
-          <h5 class="card-title">Conduct Exam</h5>
-          <p class="card-text">Contains the Store exams that ready to conduct</p>
-          <a href="/v/admin/exams" class="btn btn-primary hover " >go to exam page</a>
-        </div>
-    </div>
     <div class="card mx-2 mt-2" style="width: 18rem;">
       <img src="/img/teacher.jpg" class="card-img-top" alt="..." height="200px"  style="object-fit: cover;">
       <div class="card-body">
-        <h5 class="card-title">Conduct Exam</h5>
-        <p class="card-text">Contains the Store exams that ready to conduct</p>
-        <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addTeacher()" data-bs-target="#modal">add Teacher</a>
+        <h5 class="card-title">Add teacher</h5>
+        <p class="card-text">Add the teacher if you use excel parameters are (Name email about)</p>
+        <div class="d-flex flex-wrap">
+          <button href="#" class="btn btn-primary hover " data-bs-toggle="modal"  onclick="addTeacher()" data-bs-target="#modal">add Teacher by excel</button>
+          <button href="#" class="btn btn-primary hover mt-2" data-bs-toggle="modal"  onclick="addTeacherManually()" data-bs-target="#modal">add Teacher Manually</button>
+          <a href="/v/admin/teachers" class="btn btn-primary hover mt-2" style="margin-left: 2px;" >view all teachers</a>
+        </div>
+
       </div>
   </div>
     </div>

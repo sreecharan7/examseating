@@ -15,7 +15,7 @@ export const userSchema=mongoose.Schema({
 
 userSchema.pre("save",async function (next){
     if(this.isNew){
-        this.password=await bcrupt.hash(this.password,10);
+        // this.password=await bcrupt.hash(this.password,10);
     }
     next();
 })

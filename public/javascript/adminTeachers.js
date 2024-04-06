@@ -17,7 +17,7 @@ xhr.onreadystatechange = function () {
                 <th >${teacher.about}</th>
                 <th >
                 <button type="button" class="btn btn-primary btn-sm" onclick="addCoursesModelCourse('${teacher._id}')" data-bs-toggle="modal" data-bs-target="#modal">Add Course</button>
-                <button type="button" class="btn btn-outline-success btn-sm" onclick="viewCoursesModelSetter('${teacher._id}')" data-bs-toggle="modal" data-bs-target="#modal">view</button>
+                <button type="button" class="btn btn-outline-success btn-sm" onclick="viewCoursesModelSetter('${teacher._id}')" data-bs-toggle="modal" data-bs-target="#modal">view Courses</button>
                 </th>
                 </tr>`
                 i++;

@@ -20,7 +20,7 @@ export class classesRepositroy{
             const result=await classesModel.insertMany(classes);
             return result;
         }catch(err){
-            throw new customError(400,"something went adding multiple classes");
+            throw new customError(400,"Their class exist with the same name");
         }
     }
     checkMultipleClasses=async (names)=>{

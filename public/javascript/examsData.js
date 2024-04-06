@@ -24,6 +24,7 @@ xhr.onreadystatechange = function () {
                 <button type="button" class="btn btn-primary btn-sm" onclick="generateExam('${exam._id}')">Re-generate</button>
                 <button type="button" class="btn btn-outline-success btn-sm" onclick="downloadFile('${exam._id}')" data-bs-toggle="modal" data-bs-target="#modal">view</button>
                 <button type="button" class="btn btn-outline-success btn-sm" onclick="examPapersModalSetter('${exam._id}')" data-bs-toggle="modal" data-bs-target="#modal">Exam papers</button>
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteExamModel('${exam._id}')" data-bs-toggle="modal" data-bs-target="#modal">Delete</button>
                 </th>
                 </tr>`
                 i++;
@@ -38,6 +39,35 @@ xhr.onreadystatechange = function () {
 };
 
 xhr.send();
+
+function deleteExamModel(id){
+    modalHeader.innerHTML=` <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Exam</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+    modalBody.innerHTML=`<div class="d-flex flex-column  justify-content-center align-items-around">
+        <h3>Are you sure you want to delete this exam?</h3>
+        <button class="btn btn-danger mt-3" onclick="deleteExamConfirm('${id}')">Delete</button>
+        </div>`;
+    modalFooter.innerHTML=`
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
+}
+function deleteExamConfirm(id){
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", `/api/admin/examDelete?examId=${id}`, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            let response = JSON.parse(xhr.responseText);
+            if(xhr.status==200){
+                alert("Exam deleted successfully");
+                location.reload();
+            }
+            else{
+                console.log(response);
+                alert("Exam deletion failed due to:- "+response["msg"]);
+            }
+        }
+    };
+    xhr.send();
+}
 
 
 function generateExam(examId){
@@ -82,7 +112,9 @@ async function getExamPapers(examId){
                 for(let i=0;i<examPapersData.length;i++){
                     let examPaper=examPapersData[i];
                     map[examPaper.couseCode]=1;
-                    modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <button  class="btn btn-primary btn-sm" onclick="decryptFile('${examPaper._id}')">Download</button><h5>`;
+                    // modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <button  class="btn btn-primary btn-sm" onclick="decryptFile('${examPaper._id}')">Download</button><h5>`;
+                    modalBody.innerHTML+=`<h5>${examPaper.couseCode}:-  <a  class="btn btn-primary btn-sm" href="/papers/${examPaper.paper}" download>Download</a><h5>`;
+
                 }
                 let exam=examById(examId);
                 for(let i=0;i<exam.courses.length;i++){

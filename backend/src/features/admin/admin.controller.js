@@ -38,7 +38,7 @@ export class AdminController{
         try{
             const {data}=req.body;
             let defaultpassword=req.body["defaultpassword"];
-            if(!defaultpassword){defaultpassword="123456";}
+            if(!defaultpassword){defaultpassword=process.env.defaultpassword;}
             //check array
             if(!data||typeof(data)!="object"){
                 throw new customError(400,"data is required");
@@ -106,12 +106,49 @@ export class AdminController{
             }
         }
     }
+    addStudentOne=async(req,res,next)=>{
+        try{
+            let {name,email,rollNo,branch,year} =req.body;
+            // console.log(req.body);
+            if(!name||!email||!rollNo||!branch||!year){
+                throw new customError(400,"name,email,rollNo,branch,year is required");
+            }
+            let {startDate,endDate,password,semesterName} =req.body;
+            if(!startDate||!endDate||!semesterName){
+                throw new customError(400,"startDate , endDate ,semseterName is required");
+            }
+            req.body["data"]=[{name,email,rollNo,branch,year}];
+            req.body["defaultpassword"]=password||process.env.defaultpassword;
+            req.nores=true;
+            const studentData =await this.addStudent(req,res,next);
+            if(studentData instanceof Error){
+                throw studentData;
+            }
+            let students=[];
+            for(let i=0;i<studentData.length;i++){
+                students.push({
+                    name:semesterName,
+                    studentId:studentData[i]._id,
+                    isCurrent:true,
+                    payment:req.body["payment"]
+                });
+            }
+            req.body={data:students,startDate,endDate};
+            const semestersData =await this.addSemester(req,res,next);
+            if(semestersData instanceof Error){
+                throw semestersData;
+            }
+            res.status(200).json({message:"student added successfully"});
+        }catch(err){
+            next(err);
+        }
+    }
     //add teacher
     addTeacher=async(req,res,next)=>{
         try{
             const {data}=req.body;
             let defaultpassword=req.body["defaultpassword"];
-            if(!defaultpassword){defaultpassword="123456";}
+            if(!defaultpassword){defaultpassword=process.env.defaultpassword;}
             //check array
             if(!data||typeof(data)!="object"){
                 throw new customError(400,"data is required");
@@ -175,6 +212,27 @@ export class AdminController{
             }else{
                 return err;
             }
+        }
+    }
+    addTeacherOne=async(req,res,next)=>{
+        try{
+            let {name,email,about,password}=req.body;
+            // console.log(req.body);
+            if(!name||!email||!about){
+                throw new customError(400,"name,email,about is required");
+            }
+            let defaultpassword=password||process.env.defaultpassword;
+            req.body["data"]=[{name,email,about}];
+            req.body["defaultpassword"]=defaultpassword;
+            req.nores=true;
+            const teacherData =await this.addTeacher(req,res,next);
+            if(teacherData instanceof Error){
+                throw teacherData;
+            }
+            res.status(200).json({message:"teacher added successfully"});
+
+        }catch(err){
+            next(err);
         }
     }
     addTeacherByExel=async(req,res,next)=>{
@@ -344,6 +402,9 @@ export class AdminController{
             }
             let fileAddress=req.file.path;
             let {startDate,endDate,defaultpassword,semesterName} =req.body;
+            if(!defaultpassword){
+                defaultpassword=process.env.defaultPasswordUser;
+            }
             if(!startDate||!endDate||!semesterName){
                 throw new customError(400,"startDate , endDate ,semseterName is required");
             }
@@ -363,6 +424,7 @@ export class AdminController{
                     name:data[i][0],
                     rollNo:data[i][1],
                     email:data[i][2],
+                    password:defaultpassword,
                     branch:data[i][3],
                     year:data[i][4]
                 });
@@ -393,13 +455,28 @@ export class AdminController{
     }
     addClasses=async (req,res,next)=>{
         try {
-            const {data}=req.body;
+            const data1=req.body;
+            let data=[];
+            data.push(data1);
             if(!data||typeof(data)!="object"||!data.length||data.length==0){
                 throw new customError(400,"data is required");
             }
             let classes=[];
             for(let i=0;i<data.length;i++){
-                if(data[i]["structure"].length&&data[i]["name"]&&data[i]["noOfTeacherRequired"]){
+                if(data[i]["structure"]&&data[i]["name"]&&data[i]["noOfTeacherRequired"]&&data[i]["structure"].trim()!=""){
+                    let structureArray=data[i]["structure"].split(",");
+                        let structureClassArray=[];
+                    for(let i=0;i<structureArray.length; i++){
+                        let structureClass=structureArray[i].split(" ");
+
+                        for(let i=0; i<structureClass. length; i++){
+                            if(structureClass[i] == "") {
+                                structureClass.splice(i,1);
+                            }
+                        }
+                        structureClassArray.push(structureClass);
+                    }
+                    data[i]["structure"]=structureClassArray;
                     classes.push({
                         structure:data[i]["structure"],
                         name:data[i]["name"],
@@ -638,6 +715,17 @@ export class AdminController{
             }
             let examPapers=await this.examPaperRepository.getPapersById(req.query.examId);
             res.status(200).json({examPapers});
+        }catch(err){
+            next(err);
+        }
+    }
+    deleteExamById=async (req,res,next)=>{
+        try{
+            if(!req.query||!req.query.examId||!isValidObjectId(req.query.examId)){
+                throw new customError(400,"examId is required");
+            }
+            let exam=await this.examRepository.deleteExamById(req.query.examId);
+            res.status(200).json({message:"exam deleted successfully"});
         }catch(err){
             next(err);
         }

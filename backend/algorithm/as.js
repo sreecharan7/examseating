@@ -1,3 +1,7 @@
+// const fs = require('fs');
+// const students = JSON.parse(fs.readFileSync('./privatedata/jsondata/anewstudents.json'));
+// const exam_halls = JSON.parse(fs.readFileSync('./privatedata/jsondata/anewclasses.json'));
+
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1)); // Generate random index from 0 to i
@@ -21,6 +25,7 @@ function make_visarray(exam_halls) {
     }
     return class_vis_array
 }
+
 function make_students_year(classes, fooddata) {
     let mymap = new Map();
     console.log(classes)
@@ -85,10 +90,10 @@ function fill_class_grace(myarray, stuts, som, final_seats) {
                     if ((myarray[i][j][k][l] == 0) && (l == 0 || (l == 1 && myarray[i][j][k][l - 1] != som) || (l > 1 && myarray[i][j][k][l - 1] != som && myarray[i][j][k][l - 2] != som))) {
                         final_seats[i][j][k][l] = stuts[v];
                         myarray[i][j][k][l] = som; v = v + 1;
-                        flag=1;
+                        fl=1;
                     }
                 }
-                if(flag){
+                if(fl){
                     k=k+1;
                 }
             }
@@ -149,17 +154,23 @@ function retu_object(final_seats, exam_halls) {
         }
         cs2.push(arrayWithZeros1);
         for (let j = 0; j < mb; j = j + 1) {
+
             let mc = 0;
             let arrayWithZeros = new Array(fima).fill("-");
+
             for (let k = 0; k < siz.length; k++) {
-                for (let l = 0; l < siz[k] && l < final_seats[i][k][j].length; l = l + 1) {
-                    arrayWithZeros[mc + l] = final_seats[i][k][j][l];
+                if (final_seats[i][k][j]){
+                    for (let l = 0; l < siz[k] && l < final_seats[i][k][j].length; l = l + 1) {
+                        arrayWithZeros[mc + l] = final_seats[i][k][j][l];
+                    }
+                    mc += siz[k];
                 }
-                mc += siz[k];
+                
             }
             cs2.push(arrayWithZeros)
         }
         a1.seating = cs2;
+
         cs1.push(a1)
     }
 
@@ -167,10 +178,12 @@ function retu_object(final_seats, exam_halls) {
     final_object.classes_data = cs1;
     return final_object
 }
-export function gets_seating(data, basedon = "year",grace=0) {
 
+
+export function gets_seating(data, basedon = "year",grace=0) {
     let students = data.students
     let exam_halls = data.classes
+    // console.log(students, exam_halls)
     shuffleArray(exam_halls);
     let class_vis = make_visarray(exam_halls);
     var final_seats = JSON.parse(JSON.stringify(class_vis));
@@ -209,4 +222,3 @@ export function gets_seating(data, basedon = "year",grace=0) {
 
 
 }
-

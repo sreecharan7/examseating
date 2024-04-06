@@ -1,3 +1,4 @@
+
 console.log("adminHome.js loaded...");
 
 function addStudents(){
@@ -115,15 +116,15 @@ function addClasses(){
     <form id="add-courses">
     <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">class name</span>
-  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="name">
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="name" id="name">
 </div>
 <div class="input-group mb-3">
 <span class="input-group-text" id="basic-addon1">No Of Teacher Required</span>
-<input type="number" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="noOfTeacherRequired">
+<input type="number" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="noOfTeacherRequired" id="noOfTeacherRequired">
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">structure</span>
-  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="structure">
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="structure" id="structure">
 </div>
 </form>
         </div>`;
@@ -133,58 +134,30 @@ function addClasses(){
 }
 
 function addClassesSumit(){
-    let form=document.getElementById("add-courses");
-    //send the data to the server using xarhttp
-    let formData=new FormData(form);
-    //data in form of structure
-    let structure=formData.get("structure");
-    let structureArray=structure.split(",");
-    let structureClassArray=[];
-    for(let i=0;i<structureArray.length;i++){
-        let structureClass=structureArray[i].split(" ");
-        for(let i=0;i<structureClass.length;i++){
-            if(structureClass[i]==""){
-                structureClass.splice(i,1);
-            }
-        }
-        structureClassArray.push(structureClass);
-    }
 
-    console.log(structureClassArray);
-    formData.delete("structure");
-    formData.append("structure",JSON.stringify(structureClassArray));
-    let data=[
-        {
-            "name":"class1",
-            "noOfTeacherRequired":2,
-            "structure":structureClassArray
-        }
-    ]
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST",`/api/admin/addClasses`, true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-
-
-    let xhr=new XMLHttpRequest();
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    var serializedData = new URLSearchParams(data).toString();
-    xhr.open("POST", "/api/admin/addClasses", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            let response = JSON.parse(xhr.responseText);
-            if(xhr.status==200){
-                alert(response.message);
-                return true;
-            }
-            else if(xhr.status==400){
-                alert(response.msg);
-              return false;
-            }
-            else{
-              alert(response.msg);
-              return false;
-            }
-        }
-    };
-    xhr.send(serializedData);
+  const data = {
+    name: $("#name").val(),
+    noOfTeacherRequired: $("#noOfTeacherRequired").val(),
+    structure: $("#structure").val()
+  };
+  console.log(data);
+  var serializedData = new URLSearchParams(data).toString();
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+          let response = JSON.parse(xhr.responseText);
+          if(xhr.status==200){
+              alertToast(`${response["message"]}`);
+          }
+          else{
+              alertToast(`${response["msg"]}`);
+          }
+      }
+  };
+  xhr.send(serializedData);
 }
 
 function addExam(){
@@ -210,13 +183,14 @@ function addExam(){
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">courses</span>
-  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="courses" id="courses">
+  <input type="text" class="form-control ui-widget"  aria-label="Username" aria-describedby="basic-addon1" name="courses" id="courses">
 </div>
 </form>
         </div>`;
     modalFooter.innerHTML=`
     <button type="button" class="btn btn-warning" onclick="addExamSumit()">submit</button>
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
+    addKeyword();
 }
 
 function addExamSumit(){
@@ -267,4 +241,216 @@ modalBody.innerHTML=`<div class="d-flex flex-column  justify-content-center alig
 modalFooter.innerHTML=`
 <button type="button" class="btn btn-warning" onclick="addDataToBase('/api/admin/addTeacherByExel')">submit</button>
 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
+}
+
+
+function addKeyword() {
+  var availableTags = [
+    "ActionScript",
+    "AppleScript",
+    "Asp",
+    "BASIC",
+    "C",
+    "C++",
+    "Clojure",
+    "COBOL",
+    "ColdFusion",
+    "Erlang",
+    "Fortran",
+    "Groovy",
+    "Haskell",
+    "Java",
+    "JavaScript",
+    "Lisp",
+    "Perl",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Scala",
+    "Scheme"
+  ];
+  function split( val ) {
+    return val.split( /,\s*/ );
+  }
+  function extractLast( term ) {
+    return split( term ).pop();
+  }
+
+  $( "#courses" )
+    // don't navigate away from the field on tab when selecting an item
+    .on( "keydown", function( event ) {
+      if ( event.keyCode === $.ui.keyCode.TAB &&
+          $( this ).autocomplete( "instance" ).menu.active ) {
+        event.preventDefault();
+      }
+    })
+    .autocomplete({
+      minLength: 0,
+      source: function( request, response ) {
+        // delegate back to autocomplete, but extract the last term
+        response( $.ui.autocomplete.filter(
+          availableTags, extractLast( request.term ) ) );
+      },
+      focus: function() {
+        // prevent value inserted on focus
+        return false;
+      },
+      select: function( event, ui ) {
+        var terms = split( this.value );
+        // remove the current input
+        terms.pop();
+        // add the selected item
+        terms.push( ui.item.value );
+        // add placeholder to get the comma-and-space at the end
+        terms.push( "" );
+        this.value = terms.join( ", " );
+        return false;
+      }
+    });
+}
+
+function addTeacherManually(){
+  modalHeader.innerHTML=` <h1 class="modal-title fs-5" id="exampleModalLabel">ADD TEACHER</h1>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+  modalBody.innerHTML=`<div class="d-flex flex-column  justify-content-center align-items-around">
+    <form id="add-multiple-form">
+    <div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">name</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="name" id="name">
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">about</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="about" id="about">
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">email</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="email" id="email">
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">password</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="password" id="password">
+</div>
+</form>
+        </div>`;
+    modalFooter.innerHTML=`
+    <button type="button" class="btn btn-warning" onclick="addTeacherOne()">submit</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
+}
+
+function addTeacherOne(){
+  var data={
+    "name":$("#name").val(),
+    "about":$("#about").val(),
+    "email":$("#email").val(),
+    "password":$("#password").val()
+  }
+  let xhr=new XMLHttpRequest();
+  xhr.open("POST", "/api/admin/addTeacherOne", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  var serializedData = new URLSearchParams(data).toString();
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+          let response = JSON.parse(xhr.responseText);
+          if(xhr.status==200){
+              alert(response.message);
+              return true;
+          }
+          else if(xhr.status==400){
+              alert(response.msg);
+            return false;
+          }
+          else{
+            alert(response.msg);
+            return false;
+          }
+      }
+  };
+  xhr.send(serializedData);
+}
+
+function addStudentManually(){
+  //ask email name  password rollNo branch year startDate endDate semesterName
+  modalHeader.innerHTML=` <h1 class="modal-title fs-5" id="exampleModalLabel">ADD STUDENT</h1>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+  modalBody.innerHTML=`<div class="d-flex flex-column  justify-content-center align-items-around">
+    <form id="add-multiple-form">
+    <div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Name</span>
+  <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="name" id="name">
+</div>
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">Email</span>
+<input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="email" id="email">
+</div>
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">Password</span>
+<input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="password" id="password">
+</div>
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">Roll No</span>
+<input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="rollNo" id="rollNo">
+</div>
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">Branch</span>
+<input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="branch" id="branch">
+</div>
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">Year</span>
+<input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="year" id="year">
+</div>
+<div class="input-group mb-3">
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">Semester Name</span>
+<input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="semesterName" id="semesterName">
+</div>
+<span class="input-group-text" id="basic-addon1">Start Date</span>
+<input type="date" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="startDate" id="startDate">
+</div>
+<div class="input-group mb-3">
+<span class="input-group-text" id="basic-addon1">End Date</span>
+<input type="date" class="form-control"  aria-label="Username" aria-describedby="basic-addon1" name="endDate" id="endDate">
+</div>
+
+</form>
+</div>`
+
+modalFooter.innerHTML=`
+<button type="button" class="btn btn-warning" onclick="addStudentOne()">submit</button>
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
+
+}
+function addStudentOne(){
+  var data={
+    "name":$("#name").val(),
+    "email":$("#email").val(),
+    "password":$("#password").val(),
+    "branch":$("#branch").val(),
+    "year":$("#year").val(),
+    "rollNo":$("#rollNo").val(),
+    "semesterName":$("#semesterName").val(),
+    "startDate":$("#startDate").val(),
+    "endDate":$("#endDate").val()
+  }
+  let xhr=new XMLHttpRequest();
+  xhr.open("POST", "/api/admin/addStudentOne", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  var serializedData = new URLSearchParams(data).toString();
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+          let response = JSON.parse(xhr.responseText);
+          if(xhr.status==200){
+              alert(response.message);
+              return true;
+          }
+          else if(xhr.status==400){
+              alert(response.msg);
+            return false;
+          }
+          else{
+            alert(response.msg);
+            return false;
+          }
+      }
+  };
+  xhr.send(serializedData);
 }

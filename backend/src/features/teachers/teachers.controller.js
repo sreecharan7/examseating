@@ -36,12 +36,12 @@ export class TeachersController{
             if(!examData){
                 throw new  customError(400,"Exam not found");
             }
-            let eccData=encryptFile(`./${req.file.destination}/${req.file.filename}`,`./public/papers/${req.file.filename}.enc`);
+            // let eccData=encryptFile(`./${req.file.destination}/${req.file.filename}`,`./public/papers/${req.file.filename}.enc`);
             //delete the original file.
             //convet the key and iv to string
-            eccData.key=eccData.key.toString('hex');
-            eccData.iv=eccData.iv.toString('hex');
-            await this.examPaperRepository.createExamPaper(examId,couseCode,`${req.file.filename}.enc`,eccData.key,eccData.iv,file.originalname);
+            // eccData.key=eccData.key.toString('hex');
+            // eccData.iv=eccData.iv.toString('hex');
+            await this.examPaperRepository.createExamPaper(examId,couseCode,`${req.file.filename}`);
             res.status(201).json({message:"Question paper added successfully"});
         }catch(err){
             next(err);

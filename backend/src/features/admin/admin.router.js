@@ -53,6 +53,13 @@ app.post("/addstudenstByExel",upload.single('excel'),authorization,(req,res,next
     adminController.addStudentsByExel(req,res,next);
 });
 
+app.post("/addStudentOne",upload.single('excel'),authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.addStudentOne(req,res,next);
+});
+
 app.post("/addClasses",authorization,(req,res,next)=>{
     req.data={specificRole:"admin"};
     next();
@@ -73,6 +80,13 @@ app.post("/addTeacherByExel",upload.single('excel'),authorization,(req,res,next)
     next();
 },checkSpecificRole,(req,res,next)=>{
     adminController.addTeacherByExel(req,res,next);
+});
+
+app.post("/addTeacherOne",authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.addTeacherOne(req,res,next);
 });
 
 app.post("/addExam",authorization,(req,res,next)=>{
@@ -100,6 +114,15 @@ app.get("/examsPapers",authorization,(req,res,next)=>{
 },checkSpecificRole,(req,res,next)=>{
     adminController.getAllExamPapers(req,res,next);
 });
+
+app.delete("/examDelete",authorization,(req,res,next)=>{
+    req.data={specificRole:"admin"};
+    next();
+},checkSpecificRole,(req,res,next)=>{
+    adminController.deleteExamById(req,res,next);
+});
+
+
 
 
 export default app;

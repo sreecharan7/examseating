@@ -18,6 +18,6 @@ export const examPaperSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    key: { type: String, required: true },
-    iv: { type: String, required: true }
+    key: { type: String },
+    iv: { type: String }
 });

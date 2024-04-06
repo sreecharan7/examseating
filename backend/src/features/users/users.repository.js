@@ -54,3 +54,20 @@ export class UserRepository{
         }
     }
 }
+
+export function intialsetup(){
+    //check any user edist with admin email
+    userModel.findOne({email:process.env.adminEmail}).then((user)=>{
+        if(!user){
+            //if not then add admin user
+            const newUser=new userModel({email:process.env.adminEmail,password:process.env.adminPassword,role:"admin",collegeId:'6605891fa3f8a4f2d344e70e'});
+            newUser.save().then((user)=>{
+                console.log("admin user added");
+            }).catch((err)=>{
+                console.log("admin user not added");
+            })
+        }
+    }).catch((err)=>{
+        console.log("admin user not added");
+    })
+}
